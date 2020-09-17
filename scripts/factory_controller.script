@@ -1,0 +1,29 @@
+	--[[ 
+	This script was created to control the main collection. 
+	]]--
+	grid = 460
+	star_heights = {150, 250, 350, 450, 550}
+	coin_heights = 100
+	local coin_index = 0
+	function init(self)
+		self.speed = 540
+		self.timer = 1.0
+		self.asteroid = {}
+	end
+
+	function update(self, dt) -- <2>
+		if self.timer > 0 then 
+			self.timer = self.timer - dt
+		else 
+			local random_factor = math.random()
+			if random_factor < 0.5 then 
+				local f = "#meteor_up_factory"
+				local asteroid_size = 0.5
+				local asteroid_position = math.random(100,1000)
+				local asteroid = factory.create(f,vmath.vector3(asteroid_position, 720, 0), nil, {})
+			end
+			self.timer = 1.0
+		end
+
+	end
+	

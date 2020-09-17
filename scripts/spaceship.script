@@ -1,0 +1,27 @@
+-- This control the movement, speed and other thing related to the spaceship. 
+
+
+function init(self)
+	-- make sure the script will receive user input
+	msg.post(".", "acquire_input_focus")
+
+end
+
+
+function on_input(self, action_id, action)
+	-- update direction of movement based on currently pressed keys
+	if action_id == hash("up") then
+		msg.post("#co", "apply_force", {force = vmath.vector3(0, 5000000, 0), position = go.get_world_position()})
+		
+	elseif action_id == hash("down") then
+		msg.post("#co", "apply_force", {force = vmath.vector3(0, -5000000, 0), position = go.get_world_position()})
+	
+	elseif action_id == hash("left") then
+		msg.post("#co", "apply_force", {force = vmath.vector3(-5000000, 0, 0), position = go.get_world_position()})
+		
+	elseif action_id == hash("right") then
+		msg.post("#co", "apply_force", {force = vmath.vector3(5000000, 0, 0), position = go.get_world_position()})
+		
+	end
+	
+end

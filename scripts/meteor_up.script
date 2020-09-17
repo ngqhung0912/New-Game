@@ -1,0 +1,15 @@
+-- go.property("speed_x", 540)
+-- go.property("speed_y", 0)
+-- 
+-- function update(self, dt)
+-- 	self.speed_y = math.random(300,700)
+-- 	local pos = go.get_position()
+-- 	if pos.y < -300 or pos.x < -500 then
+-- 		go.delete()
+-- 	end
+-- 	pos.y = pos.y - self.speed_y * dt
+-- 	pos.x = pos.x - self.speed_x * dt
+-- 	go.set_position(pos)
+-- 
+-- end
+-- 
