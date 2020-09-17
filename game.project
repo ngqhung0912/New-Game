@@ -7,10 +7,17 @@ shared_state = 1
 [display]
 width = 1280
 height = 720
+display_profiles = /builtins/render/default.display_profilesc
 
 [android]
 input_method = HiddenInputField
 
 [project]
 title = NewGame
+
+[physics]
+gravity_y = -150.0
+debug = 1
+scale = 1.0
+allow_dynamic_transforms = 1
 

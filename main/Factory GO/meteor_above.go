@@ -22,8 +22,8 @@ embedded_components {
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {
-    x: 2.0
-    y: -50.0
+    x: -4.0
+    y: -65.0
     z: 0.0
   }
   rotation {
@@ -41,14 +41,14 @@ embedded_components {
   "mass: 1.0\n"
   "friction: 0.1\n"
   "restitution: 0.5\n"
-  "group: \"meteor \"\n"
+  "group: \"asteroid\"\n"
   "mask: \"wall\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_SPHERE\n"
   "    position {\n"
-  "      x: 9.0\n"
-  "      y: 0.0\n"
+  "      x: 2.0\n"
+  "      y: -8.0\n"
   "      z: 0.0\n"
   "    }\n"
   "    rotation {\n"
@@ -60,7 +60,7 @@ embedded_components {
   "    index: 0\n"
   "    count: 1\n"
   "  }\n"
-  "  data: 97.5\n"
+  "  data: 83.917\n"
   "}\n"
   "linear_damping: 0.0\n"
   "angular_damping: 0.0\n"
