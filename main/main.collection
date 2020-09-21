@@ -324,7 +324,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "spaceship_controller 1"
+  id: "asteroid_static"
   data: "components {\n"
   "  id: \"meteor_up\"\n"
   "  component: \"/Script/meteor_up.script\"\n"
