@@ -1,0 +1,27 @@
+
+
+function on_message(self, message_id, message, sender)
+	local force_x = math.random(2000, 7000)
+	local force_y = math.random(2000, 7000)
+
+	if message_id == hash("above_meteor_created") then 
+		msg.post("#meteor_co", "apply_force", {force = vmath.vector3(-force_x, -force_y, 0), position = go.get_world_position()})	
+	elseif message_id == hash("below_meteor_created") then 
+		msg.post("#meteor_co", "apply_force", {force = vmath.vector3(force_x, force_y, 0), position = go.get_world_position()})
+	elseif message_id == hash("left_meteor_created") then 
+		msg.post("#meteor_co", "apply_force", {force = vmath.vector3(force_x, force_y, 0), position = go.get_world_position()})
+	elseif message_id == hash("right_meteor_created") then 
+		msg.post("#meteor_co", "apply_force", {force = vmath.vector3(-force_x, - force_y, 0), position = go.get_world_position()})
+	end
+	
+	if message_id == hash("collision_response") and message.group == hash("meteor") then 
+		go.delete()	
+	end 
+	
+end 
+
+function final(self)
+	msg.post("/new_meteor_controller#factory_controller", "deleted_GO_id", {id = go.get_id()})
+end
+
+	

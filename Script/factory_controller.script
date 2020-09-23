@@ -1,29 +1,138 @@
-	--[[ 
-	This script was created to control the main collection. 
-	]]--
+
 	grid = 460
-	star_heights = {150, 250, 350, 450, 550}
-	coin_heights = 100
-	local coin_index = 0
 	function init(self)
-		self.speed = 540
-		self.timer = 1.0
-		self.asteroid = {}
+		self.timer = 1.0 
+		self.meteor_list = {} -- table of meteor created 
+		self.playtime = 0 -- calculating playtime 
+		self.meteor = 0 
 	end
 
-	function update(self, dt) -- <2>
+	local function mult_factor(playtime)
+		if playtime < 10 then 
+			return 1
+		elseif playtime > 10 and playtime < 20 then 
+			return 1.5
+		elseif playtime > 20 and playtime < 30 then 
+			return 2
+		elseif playtime > 30 and playtime < 40 then 
+			return 2.5
+		elseif playtime > 40 and playtime < 50 then 
+			return 3
+		elseif playtime > 50 and playtime < 60 then 
+			return 3.5						
+		elseif playtime > 60 then 
+			return 4
+		end 
+	end 
+
+	local function meteor_spawning(direction,list_meteor)
+		local f = "#meteor_factory" -- id of the meteor 
+		local meteor_size = 0.35 -- size of the meteor 
+		local list_meteor_position = {250, 500, 750, 900}
+		if direction == "above" then  
+			local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+			local meteor = factory.create(f,vmath.vector3(meteor_position, 720, 0), nil, {}, meteor_size) 
+			msg.post(meteor, "above_meteor_created")
+			table.insert(list_meteor, meteor)	
+			
+		elseif direction == "below" then 
+			local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+			local meteor = factory.create(f,vmath.vector3(meteor_position, 0, 0), nil, {}, meteor_size) 
+			-- asteroid is the id of the meteor, and the above line create the meteor 
+			msg.post(meteor, "below_meteor_created")
+			table.insert(list_meteor, meteor)	
+			
+		elseif direction == "left" then 
+			local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+			local meteor = factory.create(f,vmath.vector3(0, meteor_position, 0), nil, {}, meteor_size) 
+			-- asteroid is the id of the meteor, and the above line create the meteor 
+			msg.post(meteor, "left_meteor_created")
+			table.insert(list_meteor, meteor)	
+			
+		elseif direction == "right" then
+			local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+			local meteor = factory.create(f,vmath.vector3(1280, meteor_position, 0), nil, {}, meteor_size) 
+			-- asteroid is the id of the meteor, and the above line create the meteor 
+			msg.post(meteor, "right_meteor_created")
+			table.insert(list_meteor, meteor)	
+			
+		end 
+	end 
+
+	function update(self, dt)
+		
+		-- PLAYTIME CALCULATION ====================================================================
+		self.playtime = self.playtime + 1/61 -- current playing time
+		-- higher playing time result in more meteors.
+
+		-- CURRENT METEOR COUNT ====================================================================
+		self.meteor = table.getn(self.meteor_list)  -- amount of meteor at a certain time. 
+		
+		-- METEOR SPAWNING =========================================================================
+		
 		if self.timer > 0 then 
 			self.timer = self.timer - dt
 		else 
-			local random_factor = math.random()
-			if random_factor < 0.5 then 
-				local f = "#meteor_up_factory"
-				local asteroid_size = 0.5
-				local asteroid_position = math.random(100,1000)
-				local asteroid = factory.create(f,vmath.vector3(asteroid_position, 720, 0), nil, {})
+			local random_factor = math.random() -- random factor, use for spawning.
+			if random_factor < 0.15 then 
+				local f = "#meteor_factory" -- id of the meteor 
+				local meteor_size = 0.35 -- size of the meteor 
+				local list_meteor_position = {250, 500, 750}
+				local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+				local meteor = factory.create(f,vmath.vector3(meteor_position, 720, 0), nil, {}, meteor_size) 
+				-- asteroid is the id of the meteor, and the above line create the meteor 
+				msg.post(meteor, "above_meteor_created")
+				table.insert(self.meteor_list, meteor)	
 			end
+			-- create meteor from below
+			if random_factor > 0.5 and random_factor < 0.65 then 
+				local f = "#meteor_factory" -- id of the meteor 
+				local meteor_size = 0.35 -- size of the meteor 
+				local list_meteor_position = {250, 500, 750}
+				local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+				local meteor = factory.create(f,vmath.vector3(meteor_position, 0, 0), nil, {}, meteor_size) 
+				-- asteroid is the id of the meteor, and the above line create the meteor 
+				msg.post(meteor, "below_meteor_created")
+				table.insert(self.meteor_list, meteor)	
+			end	
+			-- create meteor from the left
+			
+			if random_factor > 0.75 and random_factor < 0.9 then 
+				local f = "#meteor_factory" -- id of the meteor 
+				local meteor_size = 0.35 -- size of the meteor 
+				local list_meteor_position = {250, 500, 750, 900}
+				local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+				local meteor = factory.create(f,vmath.vector3(0, meteor_position, 0), nil, {}, meteor_size) 
+				-- asteroid is the id of the meteor, and the above line create the meteor 
+				msg.post(meteor, "left_meteor_created")
+				table.insert(self.meteor_list, meteor)	
+			end	
+			
+			if random_factor > 0.3 and random_factor < 0.45 then 
+				local f = "#meteor_factory" -- id of the meteor 
+				local meteor_size = 0.35 -- size of the meteor 
+				local list_meteor_position = {250, 500, 750, 900}
+				local meteor_position = list_meteor_position[math.random(#list_meteor_position)] -- position of the meteor
+				local meteor = factory.create(f,vmath.vector3(1280, meteor_position, 0), nil, {}, meteor_size) 
+				-- asteroid is the id of the meteor, and the above line create the meteor 
+				msg.post(meteor, "right_meteor_created")
+				table.insert(self.meteor_list, meteor)	
+			end	
+			
 			self.timer = 1.0
 		end
 
 	end
+
+	function on_message(self, message_id, message, sender)
+		if message_id == hash("reset") then
+			print(self.playtime)
+			self.playtime = 0
+			msg.post("/spaceship_controller #spaceship", "reset")
+			for i,p in ipairs(self.meteor_list) do	
+				pcall(go.delete, p)
+			end
+			self.meteor_list = {}
+		end 
+	end 
 	
